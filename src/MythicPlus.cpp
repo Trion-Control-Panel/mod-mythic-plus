@@ -284,11 +284,11 @@ void MythicPlus::ScaleCreature(uint8 level, Creature* creature, MpMultipliers* m
     creature->SetMaxPower(POWER_MANA, mana);
     creature->SetPower(POWER_MANA, mana);
 
-    if(cInfo->unit_class == UNIT_CLASS_MAGE) {
+    if(cInfo->unit_class == 8 /* UNIT_CLASS_MAGE */) {
         creature->SetStatFlatModifier(UNIT_MOD_MANA, BASE_VALUE, (float)mana * 10.0f);
     }
 
-    if(cInfo->unit_class == UNIT_CLASS_PALADIN) {
+    if(cInfo->unit_class == 2 /* UNIT_CLASS_PALADIN */) {
         creature->SetStatFlatModifier(UNIT_MOD_MANA, BASE_VALUE, (float)mana * 3.0f);
     }
 
