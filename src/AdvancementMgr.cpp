@@ -108,25 +108,25 @@ int32 AdvancementMgr::LoadAdvancementRanks() {
         uint32 maxIncrease2 = fields[11].Get<uint32>();
         uint32 minIncrease3 = fields[12].Get<uint32>();
         uint32 maxIncrease3 = fields[13].Get<uint32>();
-        uint32 chanceCost1 = fields[14].Get<uint32>();
-        uint32 chanceCost2 = fields[15].Get<uint32>();
-        uint32 chanceCost3 = fields[16].Get<uint32>();
+        int32 chanceCost1 = static_cast<int32>(fields[14].Get<uint32>());
+        int32 chanceCost2 = static_cast<int32>(fields[15].Get<uint32>());
+        int32 chanceCost3 = static_cast<int32>(fields[16].Get<uint32>());
 
         // Should add validator... but let's do it without and trust in the o-DB-Wan-kenobe
         MpAdvancements advancement = static_cast<MpAdvancements>(advancementId);
 
         // List of all ranks keyed by rank, advancementId
         MpAdvancementRank rank = {
-            .rank = upgradeRank,
-            .advancementId = advancement,
-            .materialCost = std::unordered_map<uint32, uint32>(),
-            .rollCost = {(int)chanceCost1, (int)chanceCost2, (int)chanceCost3},
-            .lowRange = std::make_pair(minIncrease1, maxIncrease1),
-            .midRange = std::make_pair(minIncrease2, maxIncrease2),
-            .highRange = std::make_pair(minIncrease3, maxIncrease3),
-            .material1 = std::make_pair(itemEntry1, itemCost1),
-            .material2 = std::make_pair(itemEntry2, itemCost2),
-            .material3 = std::make_pair(itemEntry3, itemCost3)
+            upgradeRank,
+            advancement,
+            std::unordered_map<uint32, uint32>(),
+            {chanceCost1, chanceCost2, chanceCost3},
+            std::make_pair(minIncrease1, maxIncrease1),
+            std::make_pair(minIncrease2, maxIncrease2),
+            std::make_pair(minIncrease3, maxIncrease3),
+            std::make_pair(itemEntry1, itemCost1),
+            std::make_pair(itemEntry2, itemCost2),
+            std::make_pair(itemEntry3, itemCost3)
         };
 
         _advancementRanks.try_emplace(std::make_pair(upgradeRank, advancement), rank);
