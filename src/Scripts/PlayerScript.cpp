@@ -250,9 +250,7 @@ public:
         data->AddPlayerData(playerData);
 
         auto mapKey = sMpDataStore->GetInstanceDataKey(mapId, player->GetInstanceId());
-        playerData->instanceData.emplace(mapKey, MpPlayerInstanceData{
-            .deaths = 0,
-        });
+        playerData->instanceData.emplace(mapKey, MpPlayerInstanceData{});
 
         sMpDataStore->DBUpdatePlayerInstanceData(player->GetGUID(), data->difficulty, map->GetId(), map->GetInstanceId());
         sMpDataStore->DBUpdateGroupData(group->GetGUID(), data->difficulty, map->GetId(), map->GetInstanceId(), 0);

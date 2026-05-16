@@ -120,7 +120,7 @@ int32 AdvancementMgr::LoadAdvancementRanks() {
             .rank = upgradeRank,
             .advancementId = advancement,
             .materialCost = std::unordered_map<uint32, uint32>(),
-            .rollCost = {chanceCost1, chanceCost2, chanceCost3},
+            .rollCost = {(int)chanceCost1, (int)chanceCost2, (int)chanceCost3},
             .lowRange = std::make_pair(minIncrease1, maxIncrease1),
             .midRange = std::make_pair(minIncrease2, maxIncrease2),
             .highRange = std::make_pair(minIncrease3, maxIncrease3),
@@ -221,7 +221,7 @@ int32 AdvancementMgr::LoadMaterialTypes() {
             uint32 materialId = fields[0].Get<uint32>();
             uint32 entry = fields[1].Get<uint32>();
 
-            if(!_materialTypes.contains(materialId)) {
+            if(_materialTypes.find(materialId) == _materialTypes.end()) {
                 _materialTypes.emplace(materialId,std::vector<uint32>());
             }
             _materialTypes.at(materialId).push_back(entry);
@@ -238,7 +238,7 @@ int32 AdvancementMgr::LoadMaterialTypes() {
 MpAdvancementRank* AdvancementMgr::GetAdvancementRank(uint32 rank, MpAdvancements advancement)
 {
     auto key = std::make_pair(rank, advancement);
-    if (_advancementRanks.contains(key))
+    if (_advancementRanks.find(key) != _advancementRanks.end())
     {
         return &_advancementRanks.at(key);
     }
@@ -256,7 +256,7 @@ MpPlayerRank* AdvancementMgr::GetPlayerAdvancementRank(Player* player, MpAdvance
         return nullptr;
     }
 
-    if (_playerAdvancements.contains(player->GetGUID().GetCounter()) && _playerAdvancements[player->GetGUID().GetCounter()].contains(advancement))
+    if (_playerAdvancements.find(player->GetGUID().GetCounter()) != _playerAdvancements.end() && _playerAdvancements[player->GetGUID().GetCounter()].find(advancement) != _playerAdvancements[player->GetGUID().GetCounter()].end())
     {
         return &_playerAdvancements[player->GetGUID().GetCounter()][advancement];
     }
@@ -271,10 +271,10 @@ uint32 AdvancementMgr::UpgradeAdvancement(Player* player, MpAdvancements advance
     // Validators to make sure inputs are correct to perform the upgrade
     if(!player) {
         MpLogger::error("Could not upgrade advancement for player, player was nullpointer");
-        throw new std::runtime_error("Could not upgrade advancement for player, player was nullpointer");
+        throw std::runtime_error("Could not upgrade advancement for player, player was nullpointer");
     }
     if(diceCostLevel < 1 || diceCostLevel > 3) {
-        throw new std::runtime_error(Acore::StringFormat("Invalid dice cost level valid vales (1,2,3) received {} for player {}", diceCostLevel, player->GetName()));
+        throw std::runtime_error(Acore::StringFormat("Invalid dice cost level valid vales (1,2,3) received {} for player {}", diceCostLevel, player->GetName()));
     }
 
     MpPlayerRank* playerRank = GetPlayerAdvancementRank(player, advancement);

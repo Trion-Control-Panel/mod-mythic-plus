@@ -11,7 +11,6 @@
 
 #include <vector>
 #include <string>
-#include <ranges>
 
 /**
  * This script file is a special event handler attached to the chat channel for MythicPlus to intercept

@@ -7,6 +7,7 @@
 #include "Unit.h"
 #include "WorldPacket.h"
 #include "UpdateMask.h"
+#include "SharedDefines.h"
 #include "MpScriptAI.h"
 
 #include <algorithm>
