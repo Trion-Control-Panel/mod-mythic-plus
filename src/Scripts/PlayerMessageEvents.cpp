@@ -29,7 +29,7 @@ public:
     /**
      * Listens to AddOn Chat channel for Mythic+ communication between UI and server mythic+ functionality
      */
-    void OnChat(Player* player, uint32 type, uint32 lang, std::string& msg, Player* receiver) override
+    void OnPlayerChat(Player* player, uint32 type, uint32 lang, std::string& msg, Player* receiver) override
     {
         // All communication from the client should be a whisper to themselves over tha addon channel
         if(!player || !receiver) {
