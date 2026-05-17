@@ -29,24 +29,25 @@ public:
     /**
      * Listens to AddOn Chat channel for Mythic+ communication between UI and server mythic+ functionality
      */
-    void OnPlayerChat(Player* player, uint32 type, uint32 lang, std::string& msg, Player* receiver) override
+    [[nodiscard]] bool OnPlayerCanUseChat(Player* player, uint32 /*type*/, uint32 lang, std::string& msg, Player* receiver) override
     {
-        // All communication from the client should be a whisper to themselves over tha addon channel
-        if(!player || !receiver) {
-            return;
-        }
+        // All communication from the client should be a whisper to themselves over the addon channel
+        if (!player || !receiver)
+            return true;
 
-        if(lang == LANG_ADDON) {
-            if(msg.empty()) {
+        if (lang == LANG_ADDON)
+        {
+            if (msg.empty())
+            {
                 MpLogger::info("Empty AddOn message received from player: {}", player->GetName());
-                return;
+                return true;
             }
 
             // if the message begins with our prefix for our data channel then process the event
-            if(boost::starts_with(msg, MP_DATA_CHAT_CHANNEL)) {
+            if (boost::starts_with(msg, MP_DATA_CHAT_CHANNEL))
                 sMpEventProcessor->ProcessMessage(player, msg);
-            }
         }
+        return true;
     }
 
     /**
